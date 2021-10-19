@@ -2,11 +2,16 @@ import math
 import random
 
 def main():
+    while True:
+        num = int(input("Enter number to be tested if probably prime "))
+
+        if IsPrimeMiller(num) == True:
+            print("Probably Prime")
+        else:
+            print("Not Prime")
 
 
 
-
-def monteCarlo(num):
     # Implement (in Python) a function that takes an integer as input and returns True or False as output,
     #indicating whether or not the integer is prime. Use the Monte Carlo probabalistic algorithm discussed
     #in section 7.2, so that it will finish in reasonable time given several hundred digit test numbers.
@@ -17,9 +22,43 @@ def monteCarlo(num):
     # with the equivalent but far faster:
     # remainder = pow(b,e,n)
 
+def IsPrimeMiller(n):
+    reps = 10
+    for i in range(reps):
+        ok = millersTest(n)
+        if not ok:
+            return False
+    return True
+# for sure not prime
+#   return True # n is probably prime
 
-def generateNumberRandom(min, max):
-    return random.randrange(min, max)
+def millersTest(x):
+
+    i = 0
+    j = x - 1
+
+    # verifying that we don't have a remainder
+    while j / 2 == int:
+        i += 1
+        j /= 2
+
+    randomVal = random.randrange(2, j)
+
+    # checking remainder
+    r = pow(randomVal, j, x)
+    if r == 1:
+        # valid, always check for remainder == 1
+        return True
+
+    for l in range(i+1):
+        # j^i % x
+        cur = j^l
+        # todo, grab the power stuffs
+        r = pow(randomVal, cur, x)
+        if r == 1:
+            return True
+    return False
+
 
 
 if __name__ == "__main__":
@@ -58,6 +97,7 @@ if __name__ == "__main__":
 # code example:
 
 # (This is the monteCarlo part of the algorithm)
+
 # def IsPrimeMiller(n):
 # for i in range(20):
 #   probablyPrime = MillersAlgorithm(N)
