@@ -2,10 +2,13 @@ import math
 import random
 
 def main():
+    runTests()
+
+
     while True:
         num = int(input("Enter number to be tested if probably prime "))
 
-        if IsPrimeMiller(num) == True:
+        if isPrimeMiller(num) == True:
             print("Probably Prime")
         else:
             print("Not Prime")
@@ -22,7 +25,7 @@ def main():
     # with the equivalent but far faster:
     # remainder = pow(b,e,n)
 
-def IsPrimeMiller(n):
+def isPrimeMiller(n):
     reps = 10
     for i in range(reps):
         ok = millersTest(n)
@@ -59,7 +62,67 @@ def millersTest(x):
             return True
     return False
 
+def runTests():
+    # Prime numbers sourced from http://compoasso.free.fr/primelistweb/page/prime/liste_online_en.php
+    primeTests = {
+        9619 : None,
+        11587 : None,
+        13441 : None,
+        23197 : None,
+        31393 : None,
+        37579 : None,
+        46181 : None,
+        52631 : None,
+        54779 : None,
+        61333 : None,
+    }
 
+    print("Testing Prime numbers. All must pass to proceed.")
+    totalPassed = 0
+
+    for key, value in primeTests.items():
+        value = isPrimeMiller(key)
+
+        if (value == True):
+            totalPassed += 1
+
+        # print out the test results
+        print(str(key), "-->", value)
+    if totalPassed == 10:
+        print("ALL TESTS PASSED\n")
+    else:
+        print("TESTS FAILED\n")
+
+    # Non prime Tests
+
+    nonPrimeTests = {
+        9610 : None,
+        11588 : None,
+        13442 : None,
+        23198 : None,
+        31394 : None,
+        37570 : None,
+        46182 : None,
+        52634 : None,
+        54770 : None,
+        61332 : None,
+    }
+
+    print("Testing Non Prime numbers. All must pass to proceed.")
+    totalPassed = 0
+
+    for key, value in nonPrimeTests.items():
+        value = isPrimeMiller(key)
+
+        if (value == False):
+            totalPassed += 1
+
+        # print out the test results
+        print(str(key), "-->", value)
+    if totalPassed == 10:
+        print("ALL TESTS PASSED\n")
+    else:
+        print("TESTS FAILED\n")
 
 if __name__ == "__main__":
     main()
