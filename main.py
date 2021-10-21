@@ -2,7 +2,12 @@ import math
 import random
 
 def main():
-    runTests()
+    runManualTests()
+
+    # 1000000 and 1003000 takes forever, it does work as intended, verified by website http://compoasso.free.fr/primelistweb/page/prime/liste_online_en.php
+    runAutomatedTests(1000000, 1003000)
+
+    #print(generatePrimeNumberList(100, 300))
 
 
     while True:
@@ -12,6 +17,8 @@ def main():
             print("Probably Prime")
         else:
             print("Not Prime")
+
+
 
 
 
@@ -62,7 +69,7 @@ def millersTest(x):
             return True
     return False
 
-def runTests():
+def runManualTests():
     # Prime numbers sourced from http://compoasso.free.fr/primelistweb/page/prime/liste_online_en.php
     primeTests = {
         9619 : None,
@@ -123,6 +130,82 @@ def runTests():
         print("ALL TESTS PASSED\n")
     else:
         print("TESTS FAILED\n")
+
+def runAutomatedTests(beg, end):
+
+    primeTests = {}
+
+    primeLst = generatePrimeNumberList(beg, end)
+
+    for item in primeLst:
+        primeTests[item] = None
+
+    print("Testing Prime numbers. All must pass to proceed.")
+    totalPPassed = 0
+
+    for key, value in primeTests.items():
+        value = isPrimeMiller(key)
+
+        if (value == True):
+            totalPPassed += 1
+
+        # print out the test results
+        print(str(key), "-->", value)
+    if totalPPassed == len(primeLst):
+        print("ALL TESTS PASSED\n")
+    else:
+        print("TESTS FAILED\n")
+
+    # NonPrimeTests
+
+    nonPrimeTests = {}
+
+    nonPrimeLst = generateNonPrimeNumberList(beg, end)
+
+    for item in nonPrimeLst:
+        nonPrimeTests[item] = None
+
+    print("Testing NonPrime numbers. All must pass to proceed.")
+    allPassing = True
+
+    for key, value in nonPrimeTests.items():
+        value = isPrimeMiller(key)
+
+        if (value == True):
+            allPassing = False
+
+        # print out the test results
+        print(str(key), "-->", value)
+    if allPassing == True:
+        print("ALL TESTS PASSED\n")
+    else:
+        print("TESTS FAILED\n")
+
+
+def generatePrimeNumberList(beg, end):
+    lst = []
+    for i in range(beg, end):
+        isPrime = True
+
+        for j in range(2, i):
+            if i % j == 0:
+                isPrime = False
+
+        if isPrime == True:
+            lst.append(i)
+    return lst
+
+def generateNonPrimeNumberList(beg, end):
+    lst = []
+    for i in range(beg, end):
+        isPrime = True
+
+        for j in range(2, i):
+            if i % j == 0:
+                isPrime = False
+                lst.append(i)
+
+    return lst
 
 if __name__ == "__main__":
     main()
